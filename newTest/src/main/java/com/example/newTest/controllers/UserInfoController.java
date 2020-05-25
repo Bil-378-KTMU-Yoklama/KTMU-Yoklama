@@ -18,6 +18,7 @@ public class UserInfoController {
     @Autowired
     public BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
     @GetMapping("/list")
     public List<UserInfo> user_infoList (){
         return user_infoRepository.findAll();

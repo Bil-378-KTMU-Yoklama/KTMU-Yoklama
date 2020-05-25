@@ -20,6 +20,10 @@ public class CoachController {
     @Autowired
     public CoachRepository coachRepository;
 
+    @PostMapping(value = "/register")
+    public void coachRegister(@RequestBody CoachRegister coachRegister) {
+        coachService.coachRegister(coachRegister);
+    }
 
 
 
