@@ -39,6 +39,28 @@ public class CoachService {
         coachRepository.save(coach);
     }
 
+    public List<LessonIdandKod> getLessons (){
+        List<LessonIdandKod> lessonList = new ArrayList<>();
+        //System.out.println(idAndStatus);
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentPrincipalName = authentication.getName();
+            UserInfo userInfo = user_infoRepository.findByUsername(currentPrincipalName);
+            if (userInfo.getStatus().equals("coach")){
+                Coach coach = coachRepository.findByUserInfo(userInfo);
+                List<Lesson> lesson = lessonRepository.findByCoachId(coach);
 
-
+                for (int i = 0;i < lesson.size(); i++){
+                    LessonIdandKod lessonIdandKod = new LessonIdandKod();
+                    lessonIdandKod.setId(lesson.get(i).getId());
+                    lessonIdandKod.setKod(lesson.get(i).getKod());
+                    lessonIdandKod.setStatus(lesson.get(i).getStatus());
+                    lessonList.add(lessonIdandKod);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lessonList;
+    }
 }

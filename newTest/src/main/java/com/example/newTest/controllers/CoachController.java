@@ -26,15 +26,20 @@ public class CoachController {
     }
 
 
-
     @GetMapping("/list")
-    public List<Coach> coachList (){
+    public List<Coach> coachList() {
         return coachRepository.findAll();
     }
 
     @GetMapping("/coach/{id}")
-    public Coach getById(@PathVariable String id){
+    public Coach getById(@PathVariable String id) {
         Integer tempId = Integer.parseInt(id);
         return coachRepository.findById(tempId).get();
     }
+
+    @GetMapping("/lessons")
+    public List<LessonIdandKod> getLessons() {
+        return coachService.getLessons();
+    }
+}
 
