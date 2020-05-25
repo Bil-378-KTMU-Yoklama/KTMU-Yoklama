@@ -20,6 +20,12 @@ public class StudentController {
     @Autowired
     public StudentRepository studentRepository;
 
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<Object> registerStudent (@ModelAttribute StudentRegister studentRegister,
+                                                   @RequestParam("file") MultipartFile files)
+            throws IOException {
+        return studentService.studentRegisterService(studentRegister,files);
+    }
 
     @GetMapping("/list")
     public List<Student> studentList (){
