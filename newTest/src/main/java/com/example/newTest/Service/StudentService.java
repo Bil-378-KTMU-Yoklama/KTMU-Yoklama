@@ -62,5 +62,5 @@ public class StudentService {
         return new ResponseEntity<>("Student registered successfully", HttpStatus.OK);
     }
 
-   
+
 }
