@@ -62,5 +62,27 @@ public class StudentService {
         return new ResponseEntity<>("Student registered successfully", HttpStatus.OK);
     }
 
-
+    public List<PercentageInfo> getPercentage (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserInfo userInfo = userInfoRepository.findByUsername(currentPrincipalName);
+        if (userInfo.getStatus().equals("student")){
+            Student student = studentRepository.findByUserId(userInfo);
+            List<Enroll> enrolls = enrollRepository.findByStudentId(student);
+            List<PercentageInfo> percentageInfos = new ArrayList<>();
+            for(int i = 0; i < enrolls.size(); i++){
+                Lesson lesson = enrolls.get(i).getLessonId();
+                List<Yoklama> yoklamas = yoklamaRepository.findByEnrollId(enrolls.get(i));
+                int count =0;
+                for (int j = 0; j < yoklamas.size();j++) {
+                    if (yoklamas.get(j).getStatus().equals(false)) count++;
+                }
+                Float percentage = ((float)(100*count)/lesson.getWeek());
+                PercentageInfo percentageInfo  = new PercentageInfo(lesson.getKod(), percentage, lesson.getStatus());
+                percentageInfos.add(percentageInfo);
+            }
+            return percentageInfos;
+        }
+        return null;
+    }
 }

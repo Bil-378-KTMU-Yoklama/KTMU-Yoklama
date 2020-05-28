@@ -23,21 +23,23 @@ public class StudentController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<Object> registerStudent (@ModelAttribute StudentRegister studentRegister,
                                                    @RequestParam("file") MultipartFile files)
-            throws IOException {
+                                                    throws IOException {
         return studentService.studentRegisterService(studentRegister,files);
     }
-
     @GetMapping("/list")
     public List<Student> studentList (){
         return studentRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("student/{id}")
     public Student getById(@PathVariable String id){
         Integer tempId = Integer.parseInt(id);
         return studentRepository.findById(tempId).get();
     }
 
-
+    @GetMapping("/percentage")
+    public List<PercentageInfo> getPercentage (){
+        return studentService.getPercentage();
+    }
 
 }
